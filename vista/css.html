@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Dinámica: Introducción a CSS</title>
+    <link rel="icon" href="imagenes/htmlico.ico">
+
+    <style>
+        /* formEstilos.css */
+        body {
+            background-color: #1c1c1cff; /* Color de fondo */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos para la barra de navegación */
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1cff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 60px;
+        }
+
+        li.navbar-item {
+            margin-left: 5px;
+        }
+
+        li.navbar-item a {
+            display: inline-block;
+            color: #ccccccff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        li.navbar-item a:hover {
+            background-color: rgba(255, 0, 0, 0.5);
+            color: white;
+            border-radius: 5px;
+        }
+
+        li.logo {
+            margin-right: 10px;
+        }
+
+        li.logo img {
+            height: auto;
+            width: 50px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #1c1c1cff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Contenedor principal que agrupa la barra lateral y el contenido */
+        .contenedorPrincipalHTML {
+            display: flex;
+            margin: 20px;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            margin-top: 15px;
+            height: 800px;
+            width: 350px;
+            background-color: #1c1c1cff;
+            padding: 15px;
+            border: #f1f1f1;
+            margin: 10px 30px 0;
+            text-align: left;
+            overflow-y: scroll; /* Forza la barra deslizadora vertical a aparecer siempre */
+        }
+
+        .sidebar h2 {
+            margin-bottom: 15px;
+            color: #ccccccff;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+        }
+
+        .sidebar li {
+            margin: 10px 0;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #ccccccff;
+        }
+
+        .sidebar a:hover {
+            color: rgb(227, 227, 227);
+            text-decoration: underline;
+        }
+
+        /* Contenido principal */
+        .contenedorInformación {
+            width: 80%; /* Establece el ancho deseado */
+            max-width: 700px; /* Añade un ancho máximo para evitar que el contenedor se expanda demasiado */
+            padding: 10px; 
+            background-color: transparent;  
+            border-radius: 5px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 9px 0 0;
+            color: #fff; 
+        }
+
+        /* Responsivo: Reglas para pantallas más pequeñas */
+        @media screen and (max-width: 768px) {
+            .contenedorPrincipalHTML {
+                flex-direction: column; 
+            }
+
+            .sidebar {
+                width: 100%; 
+                margin-right: 0; 
+            }
+
+            .contenedorInformación {
+                margin-top: 20px; 
+                width: 100%; /* Asegúrate de que ocupe el 100% en pantallas pequeñas */
+            }
+        }
+
+        .introducción p {
+            text-align: justify;
+        }
+
+        .etiqueta {
+            background-color: rgba(255, 0, 0, 0.5); /* Color rojo para la etiqueta */
+        }
+        .descripcion {
+            color: white; /* Color blanco para la descripción */
+        }
+
+        h2:hover {
+            background-color: rgba(255, 0, 0, 0.5);
+            
+        }
+
+        /* El contenedor principal seguirá usando flexbox */
+        .contenedorPrincipalCSS {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start; /* Alinea los elementos al inicio de la fila */
+        }
+
+        /* Mantén el ancho fijo para la barra lateral */
+        .sidebar {
+            width: 250px; /* Ajusta este valor según el ancho que quieras para la barra lateral */
+        }
+
+        /* El contenido principal debe estar centrado */
+        .contenedorInformación {
+            flex-grow: 1; /* Permite que el contenido ocupe el espacio disponible */
+            padding: 20px;
+            max-width: 800px; /* Define un ancho máximo para no ocupar todo el espacio */
+            margin: 0 auto; /* Centra el contenido principal */
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <!-- Incluir la barra de navegación -->
+    <div th:fragment="navbar">
+        <ul class="navbar">
+            <li class="navbar-item logo">
+                <a href="/">
+                    <img src="/imagenes/html.png" alt="Logo" style="height: 30px; width: 30px;">
+                </a>
+            </li>
+            <li class="navbar-item dropdown">
+                <a href="/" class="dropbtn">Referencias</a>
+                <div class="dropdown-content">
+                    <a href="/vista/htmlWs.html">HTML</a>
+                    <a href="/vista/css.html">CSS</a>
+                    <a href="/vista/jsWs.html">JavaScript</a>
+                    <a href="/vista/httpWs.html">HTTP</a>
+                </div>
+            </li>
+            <li class="navbar-item"><a href="/vista/acerca.html">Acerca de</a></li>
+            <li class="navbar-item navbar-login" style="margin-left: auto; margin-right: 20px;">
+                <a href="/vista/login.html">Login</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor principal que agrupa la barra lateral y el contenido -->
+    <div class="contenedorPrincipalHTML">
+        <!-- Incluir el menú lateral -->
+        <div class="sidebar">
+            <ul>
+                <h2>Temas básicos de HTML</h2>
+                <li><a href="#introduccion-a-html">Introducción a HTML</a></li>
+                <li><a href="#estructura-de-un-documento-html">Estructura de un documento HTML</a></li>
+                <li><a href="#etiquetas-html-comunes">Etiquetas HTML comunes</a></li>
+                <li><a href="#atributos-html">Atributos HTML</a></li>
+                <br>
+                <h2>Temas intermedios</h2>
+                <li><a href="#listas-en-html">Listas y tablas</a></li>
+                <li><a href="#formularios-en-html">Formularios HTML</a></li>
+                <li><a href="#enlaces-y-navegacion">Enlaces y navegación</a></li>
+                <li><a href="#imagenes-multimedia">Imagenes y multimedia</a></li>
+                <br>
+                <h2>Temas básicos de Css</h2>
+                <li><a href="#introduccion-a-css">Introducción a Css</a></li>
+                <li><a href="#selectores-de-css">Selectores de Css</a></li>
+                <li><a href="#propiedades-css">Propiedades Css</a></li>
+                <li><a href="#modelo-de-caja-css">Modelo de caja Css</a></li>
+                <br>
+                <h2>Temas intermedios</h2>
+                <li><a href="#diseño-css">Diseño de en Css</a></li>
+                <br>
+            </ul>
+        </div>
+
+        <!-- Contenedor principal a la derecha de la barra lateral -->
+        <main class="contenedorInformación">
+            <section class="introducción">
+                <h2 id="introduccion-a-css">Introducción a CSS</h2>
+                <br>
+                <p>
+                    CSS (Cascading Style Sheets) es el lenguaje utilizado para describir la presentación visual de un documento HTML. 
+                    CSS permite separar el contenido HTML de la apariencia, facilitando el mantenimiento y la actualización de los estilos en una página web.
+                </p>
+                <p>
+                    Con CSS, puedes controlar el diseño de varios elementos en una página, como el color, las fuentes, los márgenes, el espaciado, y el posicionamiento de los elementos. A continuación, exploraremos algunos conceptos básicos de CSS.
+                </p>
+            </section>
+
+            <br>
+
+            <section>
+                <h2 id="selectores-de-css">Selectores en CSS</h2>
+                <br>
+                <p>
+                    Los **selectores** en CSS se utilizan para seleccionar los elementos HTML a los que se aplicarán los estilos. Existen varios tipos de selectores, incluyendo:
+                </p>
+
+                <ul>
+                    <li><strong>Selector de tipo:</strong> Selecciona todos los elementos de un tipo específico. Ejemplo: <code>p { color: red; }</code> aplicará el color rojo a todos los párrafos.</li>
+                    <li><strong>Selector de clase:</strong> Se utiliza para seleccionar elementos con una clase específica. Ejemplo: <code>.mi-clase { font-size: 20px; }</code></li>
+                    <li><strong>Selector de ID:</strong> Selecciona un elemento único con un ID específico. Ejemplo: <code>#mi-id { background-color: blue; }</code></li>
+                    <li><strong>Selector universal:</strong> Selecciona todos los elementos de la página. Ejemplo: <code>* { margin: 0; }</code></li>
+                </ul>
+
+                <pre><code>
+                    /* Ejemplo de selectores en CSS */
+                    p {
+                        color: red;
+                    }
+                    
+                    .claseEjemplo {
+                        font-size: 18px;
+                    }
+
+                    #idEjemplo {
+                        text-align: center;
+                    }
+                </code></pre>
+            </section>
+
+            <br>
+
+            <section>
+                <h2 id="propiedades-css">Propiedades CSS comunes</h2>
+                <br>
+                <p>
+                    Las **propiedades** CSS son los atributos que controlan cómo se ven y se comportan los elementos HTML. Aquí algunos ejemplos comunes:
+                </p>
+                <ul>
+                    <li><strong>color:</strong> Define el color del texto. Ejemplo: <code>color: red;</code></li>
+                    <li><strong>background-color:</strong> Define el color de fondo de un elemento. Ejemplo: <code>background-color: lightgray;</code></li>
+                    <li><strong>font-size:</strong> Controla el tamaño del texto. Ejemplo: <code>font-size: 16px;</code></li>
+                    <li><strong>margin:</strong> Define el espacio exterior alrededor de un elemento. Ejemplo: <code>margin: 10px;</code></li>
+                    <li><strong>padding:</strong> Define el espacio interior de un elemento. Ejemplo: <code>padding: 15px;</code></li>
+                    <li><strong>border:</strong> Establece un borde alrededor de un elemento. Ejemplo: <code>border: 1px solid black;</code></li>
+                </ul>
+            </section>
+
+            <br>
+
+            <section>
+                <h2 id="modelo-de-caja-css">El modelo de caja en CSS</h2>
+                <br>
+                <p>
+                    El **modelo de caja** es un concepto fundamental en CSS que define cómo se estructura y se renderiza un elemento en la página web. 
+                    Cada elemento HTML se representa como una caja rectangular que tiene las siguientes partes:
+                </p>
+
+                <ul>
+                    <li><strong>Contenido:</strong> El área donde se muestra el texto o los medios del elemento.</li>
+                    <li><strong>Padding (Relleno):</strong> Espacio entre el contenido y el borde.</li>
+                    <li><strong>Borde:</strong> Contorno que rodea el padding y el contenido.</li>
+                    <li><strong>Margin (Margen):</strong> Espacio fuera del borde, que separa el elemento de otros.</li>
+                </ul>
+
+                <p>A continuación se muestra un ejemplo de cómo el modelo de caja afecta el diseño de un elemento:</p>
+
+                <pre><code>
+                    div {
+                        width: 300px;
+                        padding: 20px;
+                        border: 5px solid gray;
+                        margin: 10px;
+                    }
+                </code></pre>
+            </section>
+
+            <br>
+
+            <section>
+                <h2 id="diseño-css">Diseño en CSS</h2>
+                <br>
+                <p>
+                    CSS también permite controlar la disposición de los elementos en una página web, utilizando métodos como **flexbox** y **grid**.
+                </p>
+
+                <h3>Diseño con Flexbox</h3>
+                <p>
+                    Flexbox es un sistema de diseño que facilita la alineación y distribución de los elementos dentro de un contenedor. 
+                    Aquí tienes un ejemplo básico de cómo usar Flexbox:
+                </p>
+
+                <pre><code>
+                    .contenedor {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .item {
+                        width: 100px;
+                        height: 100px;
+                        background-color: lightblue;
+                    }
+                </code></pre>
+
+                <h3>Diseño con Grid</h3>
+                <p>
+                    CSS Grid es otra técnica de diseño que permite crear cuadrículas complejas para organizar elementos. Ejemplo básico de uso de CSS Grid:
+                </p>
+
+                <pre><code>
+                    .grid-container {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 10px;
+                    }
+
+                    .grid-item {
+                        background-color: lightgreen;
+                        padding: 20px;
+                    }
+                </code></pre>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

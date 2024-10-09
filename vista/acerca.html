@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/estilos/style.css">
+    <title>Acerca de</title>
+    <style>
+        /* Estilos para la sección Acerca de */
+        #acerca-de {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+
+        #acerca-de h2 {
+            color: #fff;
+            font-size: 28px;
+        }
+
+        #acerca-de p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        #acerca-de ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #acerca-de li {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Incluir el menú -->
+    <div th:fragment="navbar">
+        <ul class="navbar">
+            <li class="navbar-item logo">
+                <a href="/">
+                    <img src="/imagenes/html.png" alt="Logo" style="height: 30px; width: 30px;">
+                </a>
+            </li>
+            <li class="navbar-item dropdown">
+                <a href="/" class="dropbtn">Referencias</a>
+                <div class="dropdown-content">
+                    <a href="vista/htmlWs.html">HTML</a>
+                    <a href="vista/css.html">CSS</a>
+                    <a href="vista/jsWs.html">JavaScript</a>
+                    <a href="vista/httpWs.html">HTTP</a>
+                </div>
+            </li>
+            <li class="navbar-item"><a href="/vista/acerca.html">Acerca de</a></li>
+            <li class="navbar-item navbar-login" style="margin-left: auto; margin-right: 20px;">
+                <a href="/vista/login.html">Login</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Sección Acerca de -->
+    <section id="acerca-de">
+        <h2>Acerca de</h2>
+        <p>Estudiantes de noveno semestre realizamos un programa basado en Spring Tool, una herramienta para el desarrollo de aplicaciones Java. Este proyecto forma parte de nuestro trabajo final para la materia de programación web.</p>
+        <h3>Alumnos participantes:</h3>
+        <ul>
+            <li>Anthony Llanes Pacheco</li>
+            <li>Jesus Jose Diego Rivera</li>
+        </ul>
+    </section>
+
+</body>
+</html>

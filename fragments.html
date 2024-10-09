@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments</title>
+    <link rel="icon" href="imagenes/htmlico.ico">
+</head>
+<body>
+    <!-- Menú (barra de navegación) -->
+    <div th:fragment="navbar">
+        <ul class="navbar">
+            <li class="navbar-item logo">
+                <a href="/">
+                    <img src="imagenes/html.png" alt="Logo" style="height: 30px; width: 30px;">
+                </a>
+            </li>
+            <li class="navbar-item dropdown">
+                <a href="/" class="dropbtn">Referencias</a>
+                <div class="dropdown-content">
+                    <a href="/html">HTML</a>
+                    <a href="/css">CSS</a>
+                    <a href="/JavaScript">JavaScript</a>
+                    <a href="/http">HTTP</a>
+                </div>
+            </li>
+            <li class="navbar-item"><a href="/acerca">Acerca de</a></li>
+            <li class="navbar-item navbar-login" style="margin-left: auto; margin-right: 20px;">
+                <a href="/login">Login</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Fragmento de la barra lateral -->
+    <div th:fragment="sidebar">
+        <div class="sidebar">
+            <ul>
+                <h2>Temas básicos de HTML</h2>
+                <li><a href="#introduccion-a-html">Introducción a HTML</a></li>
+                <li><a href="#estructura-de-un-documento-html">Estructura de un documento HTML</a></li>
+                <li><a href="#etiquetas-html-comunes">Etiquetas HTML comunes</a></li>
+                <li><a href="#atributos-html">Atributos HTML</a></li>
+                <br>
+                <h2>Temas intermedios</h2>
+                <li><a href="#listas-en-html">Listas y tablas</a></li>
+                <li><a href="#formularios-en-html">Formularios HTML</a></li>
+                <li><a href="#enlaces-y-navegacion">Enlaces y navegación</a></li>
+                <li><a href="#imagenes-multimedia">Imagenes y multimedia</a></li>
+                <br>
+                <h2>Temas básicos de Css</h2>
+                <li><a href="#introduccion-a-css">Introducción a Css</a></li>
+                <li><a href="#selectores-de-css">Selectores de Css</a></li>
+                <li><a href="#propiedades-css">Propiedades Css</a></li>
+                <li><a href="#modelo-de-caja-css">Modelo de caja Css</a></li>
+                <br>
+                <h2>Temas intermedios</h2>
+                <li><a href="#diseño-css">Diseño de en Css</a></li>
+                <br>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:fragment="footer">
+        <footer class="sitefooter">
+            <p>© 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+            <p><a href="/">Inicio</a> | <a href="#contact">Contáctanos</a> | <a href="#about">Sobre nosotros</a></p>
+        </footer>
+    </div>
+</body>
+</html>

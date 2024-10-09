@@ -1,0 +1,183 @@
+/* formEstilos.css */
+body {
+    background-color: #1c1c1cff; /* Puedes cambiar el color de fondo si lo deseas */
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos para la barra de navegación */
+ul.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1cff;
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: flex-start; /* Alinea los elementos a la izquierda */
+    height: 60px; /* Altura de la barra de navegación */
+}
+
+li.navbar-item {
+    margin-left: 5px; /* Reducir la separación entre los botones */
+}
+
+li.navbar-item a {
+    display: inline-block;
+    color: #ccccccff; /* Color del texto */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    height: 100%; /* Ajusta la altura de los enlaces */
+    display: flex;
+    align-items: center; /* Centra el texto verticalmente */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+li.navbar-item a:hover {
+    background-color: rgba(255, 0, 0, 0.5); /* Color rojo translúcido */
+    color: white; /* Cambia el color del texto si lo deseas */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+li.logo {
+    margin-right: 10px; /* Reducir la separación del logo respecto a los botones */
+}
+
+li.logo img {
+    height: auto;
+    width: 50px; /* Ajustar el tamaño del logo */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1c1c1cff; /* Color de fondo igual al de la navbar */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black; /* Color para las opciones del dropdown */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Estilos para el contenedor principal y la caja */
+.contenedorPrincipal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px; /* Ajusta según sea necesario */
+}
+
+.caja {
+    height: 550;
+    width: 330px;
+    background-color: #2c2c2cff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.caja h2 {
+    height: 30px;
+    color: #ccccccff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Lato', sans-serif; /* Aplica la fuente Lato */
+    font-weight: 300; /* Usa el peso 300 para una apariencia delgada */
+}
+
+.inputCaja {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.inputCaja input {
+    width: 93%;
+    padding: 10px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #f1f1f1;
+    color: #f1f1f1;
+    font-size: 16px;
+    outline: none;
+}
+
+.inputCaja span {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #f1f1f1;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.inputCaja input:focus ~ span,
+.inputCaja input:valid ~ span {
+    top: -20px;
+    left: 0;
+    color: #ccccccff;
+    font-size: 12px;
+}
+
+.inputCaja i {
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 0, 0, 0.5); /* Color rojo translúcido */
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.inputCaja input:focus ~ i {
+    height: 100%;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px; /* Ajusta el espacio superior según sea necesario */
+    margin-bottom: 10px;
+}
+
+.links a {
+    margin-top: 0;
+    color: #ffffff; /* Color blanco */
+    text-decoration: underline; /* Sin subrayado */
+    transition: color 0.3s; /* Transición suave para el color */
+}
+
+.links a:hover {
+    color: #cccccc; /* Color gris al pasar el mouse */
+    text-decoration: underline; /* Asegura que no haya subrayado */
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff0000;
+    border: none;
+    color: #f1f1f1;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px; /* Ajusta este valor según sea necesario */
+}
+
+input[type="submit"]:hover {
+    background-color: rgba(255, 0, 0, 0.5); /* Color rojo translúcido */
+}
+

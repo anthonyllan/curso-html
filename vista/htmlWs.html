@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Dinámica</title>
+    <link rel="stylesheet" href="/estilos/style.css">
+    <link rel="icon" href="imagenes/htmlico.ico">
+
+    <style>
+        /* formEstilos.css */
+        body {
+            background-color: #1c1c1cff; /* Color de fondo */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos para la barra de navegación */
+        ul.navbar {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1cff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 60px;
+        }
+
+        li.navbar-item {
+            margin-left: 5px;
+        }
+
+        li.navbar-item a {
+            display: inline-block;
+            color: #ccccccff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        li.navbar-item a:hover {
+            background-color: rgba(255, 0, 0, 0.5);
+            color: white;
+            border-radius: 5px;
+        }
+
+        li.logo {
+            margin-right: 10px;
+        }
+
+        li.logo img {
+            height: auto;
+            width: 50px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #1c1c1cff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Contenedor principal que agrupa la barra lateral y el contenido */
+        .contenedorPrincipalHTML {
+            display: flex;
+            margin: 20px;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            margin-top: 15px;
+            height: 800px;
+            width: 350px;
+            background-color: #1c1c1cff;
+            padding: 15px;
+            border: #f1f1f1;
+            margin: 10px 30px 0;
+            text-align: left;
+            overflow-y: scroll; /* Forza la barra deslizadora vertical a aparecer siempre */
+        }
+
+        .sidebar h2 {
+            margin-bottom: 15px;
+            color: #ccccccff;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+        }
+
+        .sidebar li {
+            margin: 10px 0;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #ccccccff;
+        }
+
+        .sidebar a:hover {
+            color: rgb(227, 227, 227);
+            text-decoration: underline;
+        }
+
+        /* Contenido principal */
+        .contenedorInformación {
+            width: 80%; /* Establece el ancho deseado */
+            max-width: 700px; /* Añade un ancho máximo para evitar que el contenedor se expanda demasiado */
+            padding: 10px; 
+            background-color: transparent;  
+            border-radius: 5px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 9px 0 0;
+            color: #fff; 
+        }
+
+        /* Responsivo: Reglas para pantallas más pequeñas */
+        @media screen and (max-width: 768px) {
+            .contenedorPrincipalHTML {
+                flex-direction: column; 
+            }
+
+            .sidebar {
+                width: 100%; 
+                margin-right: 0; 
+            }
+
+            .contenedorInformación {
+                margin-top: 20px; 
+                width: 100%; /* Asegúrate de que ocupe el 100% en pantallas pequeñas */
+            }
+        }
+
+        .introducción p {
+            text-align: justify;
+        }
+
+        .etiqueta {
+            background-color: rgba(255, 0, 0, 0.5); /* Color rojo para la etiqueta */
+        }
+        .descripcion {
+            color: white; /* Color blanco para la descripción */
+        }
+
+        h2:hover {
+            background-color: rgba(255, 0, 0, 0.5);
+            
+        }
+
+        /* El contenedor principal seguirá usando flexbox */
+        .contenedorPrincipalCSS {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start; /* Alinea los elementos al inicio de la fila */
+        }
+
+        /* Mantén el ancho fijo para la barra lateral */
+        .sidebar {
+            width: 250px; /* Ajusta este valor según el ancho que quieras para la barra lateral */
+        }
+
+        /* El contenido principal debe estar centrado */
+        .contenedorInformación {
+            flex-grow: 1; /* Permite que el contenido ocupe el espacio disponible */
+            padding: 20px;
+            max-width: 800px; /* Define un ancho máximo para no ocupar todo el espacio */
+            margin: 0 auto; /* Centra el contenido principal */
+        }
+
+
+
+
+    </style>
+
+</head>
+<body>
+
+    <!-- Incluir la barra de navegación -->
+    <div th:fragment="navbar">
+        <ul class="navbar">
+            <li class="navbar-item logo">
+                <a href="/">
+                    <img src="/imagenes/html.png" alt="Logo" style="height: 30px; width: 30px;">
+                </a>
+            </li>
+            <li class="navbar-item dropdown">
+                <a href="/" class="dropbtn">Referencias</a>
+                <div class="dropdown-content">
+                    <a href="/vista/htmlWs.html">HTML</a>
+                    <a href="/vista/css.html">CSS</a>
+                    <a href="/vista/jsWs.html">JavaScript</a>
+                    <a href="/vista/httpWs.html">HTTP</a>
+                </div>
+            </li>
+            <li class="navbar-item"><a href="/vista/acerca.html">Acerca de</a></li>
+            <li class="navbar-item navbar-login" style="margin-left: auto; margin-right: 20px;">
+                <a href="/vista/login.html">Login</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor principal que agrupa la barra lateral y el contenido -->
+    <div class="contenedorPrincipalHTML">
+        <!-- Incluir el menú lateral -->
+        <div class="sidebar">
+            <ul>
+                <h2>Temas básicos de HTML</h2>
+                <li><a href="#introduccion-a-html">Introducción a HTML</a></li>
+                <li><a href="#estructura-de-un-documento-html">Estructura de un documento HTML</a></li>
+                <li><a href="#etiquetas-html-comunes">Etiquetas HTML comunes</a></li>
+                <li><a href="#atributos-html">Atributos HTML</a></li>
+                <br>
+                <h2>Temas intermedios</h2>
+                <li><a href="#listas-en-html">Listas y tablas</a></li>
+                <li><a href="#formularios-en-html">Formularios HTML</a></li>
+                <li><a href="#enlaces-y-navegacion">Enlaces y navegación</a></li>
+                <li><a href="#imagenes-multimedia">Imagenes y multimedia</a></li>
+                <br>
+                <h2>Temas básicos de Css</h2>
+                <li><a href="#introduccion-a-css">Introducción a Css</a></li>
+                <li><a href="#selectores-de-css">Selectores de Css</a></li>
+                <li><a href="#propiedades-css">Propiedades Css</a></li>
+                <li><a href="#modelo-de-caja-css">Modelo de caja Css</a></li>
+                <br>
+                <h2>Temas intermedios</h2>
+                <li><a href="#diseño-css">Diseño de en Css</a></li>
+                <br>
+            </ul>
+        </div>
+
+        <!-- Contenedor principal a la derecha de la barra lateral -->
+        <main class="contenedorInformación">
+            <section class="introducción">
+                <h2 id="introduccion-a-html">Introducción a HTML</h2>
+
+                <br>
+
+                <p>
+                    HTML (HyperText Markup Language) es el lenguaje de marcado estándar utilizado para crear y diseñar páginas web. 
+                    Se basa en la utilización de etiquetas que definen la estructura y el contenido de un documento. 
+                    Cada elemento de una página web se representa mediante etiquetas HTML, que pueden incluir texto, imágenes, 
+                    enlaces y otros recursos multimedia.
+                </p>
+                <p>
+                    HTML permite organizar el contenido en diferentes secciones y dar formato a los elementos. 
+                    Por ejemplo, se pueden utilizar etiquetas como <code>&lt;h1&gt;</code> para encabezados, 
+                    <code>&lt;p&gt;</code> para párrafos y <code>&lt;a&gt;</code> para enlaces. 
+                    Además, HTML puede incluir atributos que proporcionan información adicional sobre un elemento, 
+                    como su estilo o su comportamiento.
+                </p>
+                <p>
+                    Aunque HTML por sí solo no es un lenguaje de programación, es fundamental para la construcción de páginas web, 
+                    y se complementa comúnmente con CSS (Cascading Style Sheets) para el diseño visual y JavaScript para la interactividad.
+                </p>
+            </section>
+
+            <br>
+            
+            <section>
+
+                <h2 id="estructura-de-un-documento-html">Estructura de un documento HTML</h2>
+
+                <pre><code>
+                    &lt;!DOCTYPE html&gt;
+                    &lt;html lang="es"&gt;
+                    &lt;head&gt;
+                        &lt;meta charset="UTF-8"&gt;
+                        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                        &lt;title&gt;Título del Documento&lt;/title&gt;
+                    &lt;/head&gt;
+                    &lt;body&gt;
+                        &lt;h1&gt;Encabezado Principal&lt;/h1&gt;
+                        &lt;p&gt;Este es un párrafo de ejemplo.&lt;/p&gt;
+                    &lt;/body&gt;
+                    &lt;/html&gt;
+                </code></pre>
+            </section>
+            
+            <br>
+
+            <section>
+                <h2 id="etiquetas-html-comunes">Etiquetas HTML comunes</h2>
+
+                <br>
+
+                <ul>
+                    <p><strong>&lt;h1&gt; a &lt;h6&gt;:</strong> Encabezados de nivel 1 a 6.</p>
+                    <p><strong>&lt;p&gt;:</strong> Define un párrafo.</p>
+                    <p><strong>&lt;a&gt;:</strong> Define un enlace (hipervínculo).</p>
+                    <p><strong>&lt;img&gt;:</strong> Inserta una imagen.</p>
+                    <p><strong>&lt;ul&gt;:</strong> Lista desordenada.</p>
+                    <p><strong>&lt;ol&gt;:</strong> Lista ordenada.</p>
+                    <p><strong>&lt;li&gt;:</strong> Elemento de una lista.</p>
+                    <p><strong>&lt;table&gt;:</strong> Define una tabla.</p>
+                    <p><strong>&lt;tr&gt;:</strong> Fila de tabla.</p>
+                    <p><strong>&lt;th&gt;:</strong> Celda de encabezado en una tabla.</p>
+                    <p><strong>&lt;td&gt;:</strong> Celda en una tabla.</p>
+                    <p><strong>&lt;form&gt;:</strong> Formulario para entrada de datos.</p>
+                    <p><strong>&lt;input&gt;:</strong> Campo de entrada de datos.</p>
+                    <p><strong>&lt;button&gt;:</strong> Botón.</p>
+                </ul>
+            </section>
+
+            <br>
+            
+            <section>
+
+                <h2 id="atributos-html">Atributos HTML</h2>
+            
+                <br>
+            
+                <p>Los atributos HTML proporcionan información adicional sobre los elementos y se escriben dentro de la etiqueta de apertura:</p>
+            
+                <br>
+            
+                <ul style="list-style-type: square; padding-left: 20px;">
+                    <li><strong>id:</strong> Define un identificador único para el elemento. Ejemplo: <code>&lt;div id="contenido"&gt;&lt;/div&gt;</code></li>
+                    <li><strong>class:</strong> Asigna uno o varios nombres de clase al elemento, que pueden ser utilizados para aplicar estilos CSS. Ejemplo: <code>&lt;p class="descripcion"&gt;Texto aquí&lt;/p&gt;</code></li>
+                    <li><strong>style:</strong> Aplica estilos en línea directamente al elemento. Ejemplo: <code>&lt;h1 style="color: blue;"&gt;Título azul&lt;/h1&gt;</code></li>
+                    <li><strong>src:</strong> Especifica la URL de un archivo externo, como una imagen. Ejemplo: <code>&lt;img src="imagen.jpg" alt="Descripción de la imagen"&gt;</code></li>
+                    <li><strong>href:</strong> Define la URL a la que redirige un enlace. Ejemplo: <code>&lt;a href="https://www.ejemplo.com"&gt;Visitar Ejemplo&lt;/a&gt;</code></li>
+                    <li><strong>alt:</strong> Proporciona un texto alternativo para las imágenes si no pueden ser mostradas. Ejemplo: <code>&lt;img src="imagen.jpg" alt="Descripción de la imagen"&gt;</code></li>
+                    <li><strong>title:</strong> Proporciona información adicional que se muestra como una sugerencia cuando el usuario pasa el cursor sobre el elemento. Ejemplo: <code>&lt;p title="Este es un párrafo"&gt;Texto aquí&lt;/p&gt;</code></li>
+                    <li><strong>target:</strong> Indica cómo se abrirá el enlace. Ejemplo: <code>&lt;a href="https://www.ejemplo.com" target="_blank"&gt;Abrir en nueva pestaña&lt;/a&gt;</code></li>
+                    <li><strong>disabled:</strong> Deshabilita un elemento interactivo, como un botón o campo de entrada. Ejemplo: <code>&lt;button disabled&gt;No disponible&lt;/button&gt;</code></li>
+                    <li><strong>value:</strong> Define el valor inicial de un campo de formulario. Ejemplo: <code>&lt;input type="text" value="Texto por defecto"&gt;</code></li>
+                    <li><strong>placeholder:</strong> Muestra un texto dentro de un campo de entrada cuando está vacío. Ejemplo: <code>&lt;input type="text" placeholder="Introduce tu nombre"&gt;</code></li>
+                    <li><strong>checked:</strong> Indica que un campo de tipo checkbox o radio está marcado por defecto. Ejemplo: <code>&lt;input type="checkbox" checked&gt; Acepto los términos</code></li>
+                </ul>
+            
+                <br>
+            
+                <h3>Ejemplo completo</h3>
+                <pre><code>
+                    &lt;form&gt;
+                        &lt;input type=&quot;text&quot; id=&quot;nombre&quot; placeholder=&quot;Introduce tu nombre&quot;&gt;
+                        &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;Introduce tu correo&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; id=&quot;aceptar&quot; checked&gt; Acepto los términos
+                        &lt;button type=&quot;submit&quot;&gt;Enviar&lt;/button&gt;
+                    &lt;/form&gt;
+                </code></pre>
+            
+            </section>
+            
+
+            <br>
+
+            <section class="listas">
+                <h2 id="listas-en-html">Listas en HTML</h2>
+
+                <br>
+
+                <p>
+                    Las listas son una forma efectiva de organizar y presentar información en una página web. En HTML, 
+                    existen dos tipos principales de listas: listas desordenadas y listas ordenadas.
+                </p>
+
+                <br>
+                
+                <h3>Listas Desordenadas</h3>
+                <p>
+                    Las listas desordenadas se utilizan para agrupar elementos que no tienen un orden específico. 
+                    Se representan con la etiqueta <code>&lt;ul&gt;</code> (unordered list) y cada elemento de la lista 
+                    se marca con la etiqueta <code>&lt;li&gt;</code> (list item). Los elementos de una lista desordenada 
+                    se muestran con viñetas.
+                </p>
+
+                <br>
+
+                <pre><code>
+                    &lt;ul&gt;
+                        &lt;li&gt;Elemento 1&lt;/li&gt;
+                        &lt;li&gt;Elemento 2&lt;/li&gt;
+                        &lt;li&gt;Elemento 3&lt;/li&gt;
+                    &lt;/ul&gt;
+                </code></pre>
+
+                <br>
+                <br>
+
+                <h3>Listas Ordenadas</h3>
+
+                <br>
+
+                <p>
+                    Las listas ordenadas se utilizan para mostrar elementos que tienen un orden específico. 
+                    Se representan con la etiqueta <code>&lt;ol&gt;</code> (ordered list) y, al igual que en 
+                    las listas desordenadas, cada elemento se marca con la etiqueta <code>&lt;li&gt;</code>. 
+                    Los elementos de una lista ordenada se muestran numerados.
+                </p>
+
+                <br>
+
+                <pre><code>
+                    &lt;ol&gt;
+                        &lt;li&gt;Primer elemento&lt;/li&gt;
+                        &lt;li&gt;Segundo elemento&lt;/li&gt;
+                        &lt;li&gt;Tercer elemento&lt;/li&gt;
+                    &lt;/ol&gt;
+                </code></pre>
+
+                <br>
+                
+                <p>
+                    También es posible anidar listas dentro de otras listas, lo que permite crear subcategorías. 
+                    Aquí tienes un ejemplo de lista desordenada anidada.
+                </p>
+
+                <br>
+
+            </section>            
+
+            <section>
+
+                <h2 id="tablas-en-html">Tablas en HTML</h2>
+
+                <p>Las tablas en HTML se utilizan para mostrar datos en un formato tabular. 
+                Puedes crear tablas utilizando la etiqueta <code> &lt;table&gt; </code>, 
+                junto con varias otras etiquetas para definir filas, columnas y celdas. 
+                A continuación, te muestro cómo hacerlo con ejemplos.</p>
+
+                <br>
+
+                <pre><code>
+                    &lt;table&gt;                    
+                        &lt;tr&gt;
+                            &lt;th&gt;Encabezado 1&lt;/th&gt;
+                            &lt;th&gt;Encabezado 2&lt;/th&gt;
+                            &lt;th&gt;Encabezado 3&lt;/th&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;Fila 1, Columna 1&lt;/td&gt;
+                            &lt;td&gt;Fila 1, Columna 2&lt;/td&gt;
+                            &lt;td&gt;Fila 1, Columna 3&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;Fila 2, Columna 1&lt;/td&gt;
+                            &lt;td&gt;Fila 2, Columna 2&lt;/td&gt;
+                            &lt;td&gt;Fila 2, Columna 3&lt;/td&gt;
+                        &lt;/tr&gt;
+                    &lt;/table&gt;
+                </code></pre>
+
+            </section>
+
+            <section>
+                <h2 id="formularios-en-html">Formularios</h2>
+            
+                <br>
+            
+                <p>Los formularios son elementos clave para la interacción del usuario en la web y se pueden usar para enviar datos a un servidor.</p>
+            
+                <br>
+            
+                <pre><code>
+                    &lt;form action=&quot;/ruta-de-tu-servidor&quot; method=&quot;POST&quot;&gt;
+                        &lt;label for=&quot;nombre&quot;&gt;Nombre:&lt;/label&gt;&lt;br&gt;
+                        &lt;input type=&quot;text&quot; id=&quot;nombre&quot; name=&quot;nombre&quot; required&gt;&lt;br&gt;&lt;br&gt;
+            
+                        &lt;label for=&quot;email&quot;&gt;Correo Electrónico:&lt;/label&gt;&lt;br&gt;
+                        &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; required&gt;&lt;br&gt;&lt;br&gt;
+            
+                        &lt;label for=&quot;contrasena&quot;&gt;Contraseña:&lt;/label&gt;&lt;br&gt;
+                        &lt;input type=&quot;password&quot; id=&quot;contrasena&quot; name=&quot;contrasena&quot; required&gt;&lt;br&gt;&lt;br&gt;
+            
+                        &lt;label for=&quot;telefono&quot;&gt;Teléfono:&lt;/label&gt;&lt;br&gt;
+                        &lt;input type=&quot;tel&quot; id=&quot;telefono&quot; name=&quot;telefono&quot;&gt;&lt;br&gt;&lt;br&gt;
+            
+                        &lt;input type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;
+                        &lt;input type=&quot;reset&quot; value=&quot;Restablecer&quot;&gt;
+                    &lt;/form&gt;
+                </code></pre>
+            </section>
+            
+            <section>
+                <h2 id="enlaces-y-navegacion">Enlaces y navegación</h2>
+            
+                <br>
+            
+                <p>Esta sección incluye enlaces que permiten a los usuarios navegar entre diferentes partes del sitio web.</p>
+            
+                <br>
+            
+                <pre><code>
+                    &lt;nav&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;#inicio&quot;&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#sobre&quot;&gt;Sobre Nosotros&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#servicios&quot;&gt;Servicios&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#contacto&quot;&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/nav&gt;
+                </code></pre>
+            </section>     
+
+            <section>
+                <h2 id="imagenes-multimedia">Imágenes y multimedia</h2>
+            
+                <br>
+            
+                <p>Las imágenes se insertan en HTML usando la etiqueta &lt;img&gt;. Estas permiten añadir contenido visual que puede mejorar la estética y la comprensión del contenido textual.</p>
+            
+                <br>
+            
+                <pre><code>
+                    &lt;h3&gt;Imágenes&lt;/h3&gt;
+                    &lt;img src=&quot;ruta/de/tu/imagen.jpg&quot; alt=&quot;Descripción de la imagen&quot; width=&quot;300&quot; height=&quot;200&quot;&gt;
+            
+                    &lt;h3&gt;Video&lt;/h3&gt;
+                    &lt;iframe width=&quot;560&quot; height=&quot;315&quot; 
+                            src=&quot;https://www.youtube.com/embed/ID_DEL_VIDEO&quot; 
+                            title=&quot;Descripción del video&quot; 
+                            frameborder=&quot;0&quot; 
+                            allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; 
+                            allowfullscreen&gt;&lt;/iframe&gt;
+                </code></pre>
+            
+            </section>            
+
+        </main>
+    </div>
+</body>
+</html>
